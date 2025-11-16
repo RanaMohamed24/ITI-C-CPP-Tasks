@@ -73,6 +73,27 @@ void delay(int number)
 #endif
 }
 
+void openScreen(const string &title)
+{
+    while (true)
+    {
+        clearScreen();
+        moveCursor(5, 5);
+        cout << ">>> " << title << " SCREEN <<<\n\n";
+        cout << "Press BACKSPACE to return\n";
+        cout << "Press ESC to exit program\n";
+
+        int key = getInput();
+        if (key == KeyBackspace)
+            return;
+        if (key == KeyEsc)
+        {
+            clearScreen();
+            exit(0);
+        }
+    }
+}
+
 void drawButton(int row, int col, const string &text, bool selected)
 {
     int width = (int)text.length() + 6;

@@ -49,5 +49,6 @@ void drawButton(int row, int col, const std::string &text, bool selected);
 void drawButtons(int selected);
 
 int getInput();
+void openScreen(const std::string &title);
 
 #endif

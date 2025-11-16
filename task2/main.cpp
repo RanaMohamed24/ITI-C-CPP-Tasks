@@ -2,33 +2,11 @@
 #include <iostream>
 using namespace std;
 
-void openScreen(const string &title)
-{
-    while (true)
-    {
-        clearScreen();
-        moveCursor(5, 5);
-        cout << ">>> " << title << " SCREEN <<<\n\n";
-        cout << "Press BACKSPACE to return\n";
-        cout << "Press ESC to exit program\n";
-
-        int key = getInput();
-        if (key == KeyBackspace)
-            return;
-        if (key == KeyEsc)
-        {
-            clearScreen();
-            exit(0);
-        }
-    }
-}
-
 int main()
 {
     int selected = 0;
     const int totalButtons = 3;
 
-    // عرض الـ menu فورًا
     clearScreen();
     drawButtons(selected);
     cout.flush();
