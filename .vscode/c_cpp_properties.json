@@ -3,16 +3,13 @@
         {
             "name": "Linux",
             "includePath": [
-                 "${workspaceFolder}/**",
-                "/usr/include/c++/11",
-                "/usr/include/x86_64-linux-gnu/c++/11",
-                "/usr/include/**"
+                "${workspaceFolder}/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "linux-gcc-x64"
+            "intelliSenseMode": "linux-clang-x64"
         }
     ],
     "version": 4

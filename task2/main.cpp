@@ -38,7 +38,7 @@ int main()
             exit(0);
         }
 
-        // ارسم الزرار المحدد بعد كل تحرك
+        
         clearScreen();
         drawButtons(selected);
         cout.flush();

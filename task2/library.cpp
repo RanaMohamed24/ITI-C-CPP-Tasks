@@ -177,58 +177,59 @@ static void disableRaw()
 static Key readKey()
 {
     enableRaw();
-    unsigned char c;
-    ssize_t n = read(STDIN_FILENO, &c, 1);
+    int c = getchar();     
     disableRaw();
-    if (n <= 0)
+
+    if (c == EOF)
         return KeyNone;
+
 
     if (c == 27)
     {
         fd_set rfds;
         FD_ZERO(&rfds);
         FD_SET(STDIN_FILENO, &rfds);
+
         timeval tv;
         tv.tv_sec = 0;
         tv.tv_usec = 30000;
 
         int r = select(STDIN_FILENO + 1, &rfds, nullptr, nullptr, &tv);
+
         if (r == 1)
         {
-            unsigned char b1;
             enableRaw();
-            read(STDIN_FILENO, &b1, 1);
+            int b1 = getchar();
             disableRaw();
+
             if (b1 == '[')
             {
-                unsigned char b2;
                 enableRaw();
-                read(STDIN_FILENO, &b2, 1);
+                int b2 = getchar();
                 disableRaw();
+
                 switch (b2)
                 {
-                case 'A':
-                    return KeyUp;
-                case 'B':
-                    return KeyDown;
-                case 'C':
-                    return KeyRight;
-                case 'D':
-                    return KeyLeft;
-                default:
-                    return KeyNone;
+                case 'A': return KeyUp;
+                case 'B': return KeyDown;
+                case 'C': return KeyRight;
+                case 'D': return KeyLeft;
+                default:  return KeyNone;
                 }
             }
             return KeyNone;
         }
         else
         {
-            return KeyEsc;
+            return KeyEsc; 
         }
     }
 
+   
     if (c == '\n' || c == '\r')
         return KeyEnter;
+
+    
     if (c == 127 || c == 8)
         return KeyBackspace;
 
@@ -241,3 +242,4 @@ int getInput()
 }
 
 #endif
+
