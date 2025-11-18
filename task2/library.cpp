@@ -1,4 +1,3 @@
-
 #include "header.h"
 #include <cstdlib>
 #include <iostream>
@@ -6,6 +5,9 @@
 using namespace std;
 
 #if defined(_WIN32)
+#include <windows.h>
+#include <conio.h>
+
 WORD windowsColorMap[] = {
     0,
     FOREGROUND_RED | FOREGROUND_INTENSITY,
@@ -15,6 +17,11 @@ WORD windowsColorMap[] = {
     FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY,
     FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY,
     FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE};
+#else
+#include <unistd.h>
+#include <termios.h>
+#include <sys/select.h>
+#include <sys/time.h>
 #endif
 
 int linuxColorMap[] = {30, 31, 32, 33, 34, 35, 36, 37};
@@ -177,13 +184,16 @@ static void disableRaw()
 static Key readKey()
 {
     enableRaw();
-    int c = getchar();     
+
+    unsigned char c;
+    ssize_t n = read(STDIN_FILENO, &c, 1);
+
     disableRaw();
 
-    if (c == EOF)
+    if (n <= 0)
         return KeyNone;
 
-
+    // ESC
     if (c == 27)
     {
         fd_set rfds;
@@ -198,14 +208,18 @@ static Key readKey()
 
         if (r == 1)
         {
+            unsigned char b1;
+
             enableRaw();
-            int b1 = getchar();
+            read(STDIN_FILENO, &b1, 1);
             disableRaw();
 
             if (b1 == '[')
             {
+                unsigned char b2;
+
                 enableRaw();
-                int b2 = getchar();
+                read(STDIN_FILENO, &b2, 1);
                 disableRaw();
 
                 switch (b2)
@@ -217,19 +231,20 @@ static Key readKey()
                 default:  return KeyNone;
                 }
             }
+
             return KeyNone;
         }
         else
         {
-            return KeyEsc; 
+            return KeyEsc;  // ESC لوحده
         }
     }
 
-   
+    // ENTER
     if (c == '\n' || c == '\r')
         return KeyEnter;
 
-    
+    // Backspace
     if (c == 127 || c == 8)
         return KeyBackspace;
 
@@ -240,6 +255,4 @@ int getInput()
 {
     return readKey();
 }
-
 #endif
-

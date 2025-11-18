@@ -1,0 +1,60 @@
+#include "header.h"
+
+int main()
+{
+    int n;
+    cout << "Enter odd number n: ";
+    cin >> n;
+
+    if (n % 2 == 0 || n < 1)
+    {
+        cout << "n must be an odd positive number.\n";
+        return 0;
+    }
+
+    clearScreen();
+
+   
+    int maxNum = n * n;
+    int CELL = 2;  
+    int temp = maxNum;
+    while (temp > 0) {
+        CELL++;
+        temp /= 10;
+    }
+
+   
+    drawTableFrame(n, CELL);
+
+    
+    int row = 1;           
+    int col = n / 2 + 1;   
+
+    for (int k = 1; k <= n * n; k++)
+    {
+        printNumberInCell(row, col, CELL, k);
+
+        delay(1);
+
+        if ((k) % n != 0)  
+        {
+           
+            row--;
+            if (row < 1) row = n;  
+            
+            col++;
+            if (col > n) col = 1;  
+        }
+        else  
+        {
+            
+            row++;
+            if (row > n) row = 1;
+        }
+    }
+
+    moveCursor(2 + n * 2 + 3, 1);
+    cout << "\nMagic Square Completed!\n";
+
+    return 0;
+}
