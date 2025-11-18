@@ -1,8 +1,19 @@
 #include "header.h"
+#include <windows.h>
+#include <fcntl.h>
+#include <io.h>
+#include <stdio.h>
 
 int main()
 {
+
+#if defined(_WIN32)
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+#endif
+
     int n;
+
     cout << "Enter odd number n: ";
     cin >> n;
 
@@ -14,21 +25,19 @@ int main()
 
     clearScreen();
 
-   
     int maxNum = n * n;
-    int CELL = 2;  
+    int CELL = 2;
     int temp = maxNum;
-    while (temp > 0) {
+    while (temp > 0)
+    {
         CELL++;
         temp /= 10;
     }
 
-   
     drawTableFrame(n, CELL);
 
-    
-    int row = 1;           
-    int col = n / 2 + 1;   
+    int row = 1;
+    int col = n / 2 + 1;
 
     for (int k = 1; k <= n * n; k++)
     {
@@ -36,20 +45,23 @@ int main()
 
         delay(1);
 
-        if ((k) % n != 0)  
+        if ((k) % n != 0)
         {
-           
+
             row--;
-            if (row < 1) row = n;  
-            
+            if (row < 1)
+                row = n;
+
             col++;
-            if (col > n) col = 1;  
+            if (col > n)
+                col = 1;
         }
-        else  
+        else
         {
-            
+
             row++;
-            if (row > n) row = 1;
+            if (row > n)
+                row = 1;
         }
     }
 
