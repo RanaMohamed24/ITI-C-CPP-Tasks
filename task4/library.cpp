@@ -87,8 +87,16 @@ void str_concat(char arr1[], char arr2[], int arr1_size)
 }
 
 void strcpy(char arr1[], char arr2[])
+
 {
 
+    int len1 = str_len(arr1);
+    int len2 = str_len(arr2);
+    if (len2 > len1)
+    {
+        cout << "not enough space " << endl;
+        return;
+    }
     int i = 0;
     while (arr2[i] != '\0')
     {
