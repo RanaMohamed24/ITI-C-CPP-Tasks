@@ -1,8 +1,13 @@
 #include "header.h"
-#include <windows.h>
+
 #include <fcntl.h>
-#include <io.h>
+
 #include <stdio.h>
+
+#if defined(_WIN32)
+#include <windows.h>
+#include <io.h>
+#endif
 
 int main()
 {
@@ -13,9 +18,28 @@ int main()
 #endif
 
     int n;
+    string input;
 
     cout << "Enter odd number n: ";
-    cin >> n;
+     getline(cin, input);
+
+     bool isValid = true;
+    for (int i = 0; i < input.length(); i++)
+    {
+        if (!isdigit(input[i]))
+        {
+            isValid = false;
+            break;
+        }
+    }
+
+    if (!isValid || input.empty())
+    {
+        cout << "Invalid input! Please enter a number only.\n";
+        return 0;
+    }
+
+    n = stoi(input);
 
     if (n % 2 == 0 || n < 1)
     {
