@@ -42,10 +42,15 @@ int main()
     str_concat(name3, name4, 6);
     cout << "test after concat : " << name3 << endl;
 
-    char copy[] = "ranona";
+    char copy[15] = "ranona";
     char test[] = "liunxx";
-    strcpy(copy, test);
+    strcpy(copy, test, 15);
     cout << "test copy : " << copy << endl;
+
+    char copy2[5] = "rana";
+    char test2[] = "liunxxx";
+    strcpy(copy2, test2, 5);
+    cout << "test copy : " << copy2 << endl;
 
     return 0;
 }

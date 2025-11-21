@@ -11,6 +11,6 @@ void str_to_capital(char arr[]);
 
 void str_concat(char arr1[], char arr2[], int arr1_size);
 
-void strcpy(char arr1[], char arr2[]);
+void strcpy(char arr1[], char arr2[], int arr1_size);
 
 #endif
