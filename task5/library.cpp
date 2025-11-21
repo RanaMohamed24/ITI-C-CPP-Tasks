@@ -156,7 +156,7 @@ void addEmployee(Employee employees[], int *count)
     
     emp->id = *count + 1;
     
-    cout << "  Employee ID: " << emp->id << " (Auto-generated)\n\n";
+    cout << "  Employee ID: " << emp->id << " \n";
 
     cout << "  Enter First Name: ";
     cin >> emp->firstName;

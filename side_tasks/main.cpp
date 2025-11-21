@@ -30,6 +30,17 @@ int main(){
 
     swap_by_multiply(i, j);
         cout << "After : i = " << i << ", j = " << j << endl;
+
+    int rows, cols;
+    cout << "Enter number of rows: ";
+    cin >> rows;
+    cout << "Enter number of columns: ";
+    cin >> cols;
+
+    int arr[MAX][MAX];
+
+    Array2D(arr, rows, cols);
+    DisplayArray(arr, rows, cols);
     
     return 0;
 
