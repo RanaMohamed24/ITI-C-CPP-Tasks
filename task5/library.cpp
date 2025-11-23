@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cstring>
+#include <cctype>
 
 using namespace std;
 
@@ -132,13 +133,100 @@ void drawButtons(int selected)
     drawButton(startRow + 8, col, "EXIT", selected == 2);
 }
 
+
+bool isValidName(const string &name)
+{
+    if (name.empty())
+        return false;
+    
+  
+    bool hasLetters = false;
+    for (size_t i = 0; i < name.length(); i++)
+    {
+        if (!isalpha(name[i]) && name[i] != ' ')
+            return false;
+        if (isalpha(name[i]))
+            hasLetters = true;
+    }
+    
+    return hasLetters; 
+}
+
+
+bool isValidSalary(const string &salaryStr, double &salary)
+{
+    if (salaryStr.empty())
+        return false;
+    
+   
+    bool hasDigits = false;
+    for (size_t i = 0; i < salaryStr.length(); i++)
+    {
+        if (!isspace(salaryStr[i]))
+            hasDigits = true;
+    }
+    if (!hasDigits)
+        return false;
+    
+    try
+    {
+        salary = stod(salaryStr);
+        return salary > 0;
+    }
+    catch (...)
+    {
+        return false;
+    }
+}
+
+
+string getValidatedInput(const string &prompt, bool isName)
+{
+    string input;
+    bool validInput = false;
+    
+    while (!validInput)
+    {
+        cout << prompt;
+        getline(cin, input);
+        
+      
+        if (input.empty())
+        {
+            return "";
+        }
+        
+        if (isName)
+        {
+            if (isValidName(input))
+            {
+                validInput = true;
+            }
+            else
+            {
+                setColor(RED);
+                cout << "  ✗ Invalid input! Please enter letters only (not just spaces).\n";
+                setColor(WHITE);
+            }
+        }
+        else
+        {
+            validInput = true;
+        }
+    }
+    
+    return input;
+}
+
 void addEmployee(Employee employees[], int *count)
 {
     clearScreen();
     setColor(CYAN);
-    cout << "\n\n  ╔════════════════════════════════════╗\n";
+    cout << "\n\n  ╔═══════════════════════════════════╗\n";
     cout << "  ║     ADD NEW EMPLOYEE               ║\n";
-    cout << "  ╚════════════════════════════════════╝\n\n";
+    cout << "  ╚═══════════════════════════════════╝\n\n";
+    setColor(YELLOW);
+    cout << "  (Press ENTER on empty input to return to menu)\n\n";
     setColor(WHITE);
 
     if (*count >= 100)
@@ -152,26 +240,78 @@ void addEmployee(Employee employees[], int *count)
     }
 
     Employee *emp = &employees[*count];
-
-    
     emp->id = *count + 1;
     
-    cout << "  Employee ID: " << emp->id << " \n";
+    cout << "  Employee ID: " << emp->id << " \n\n";
 
-    cout << "  Enter First Name: ";
-    cin >> emp->firstName;
-    cin.ignore();  
+    // Get First Name with validation
+    string firstName = getValidatedInput("  Enter First Name: ", true);
+    if (firstName.empty())
+    {
+        setColor(YELLOW);
+        cout << "\n  Cancelled. Returning to menu...\n";
+        setColor(WHITE);
+        delay(1);
+        return;
+    }
+    strncpy(emp->firstName, firstName.c_str(), 49);
+    emp->firstName[49] = '\0';
 
-    cout << "  Enter Last Name: ";
-    cin >> emp->lastName;
-    cin.ignore(); 
+    // Get Last Name with validation
+    string lastName = getValidatedInput("  Enter Last Name: ", true);
+    if (lastName.empty())
+    {
+        setColor(YELLOW);
+        cout << "\n  Cancelled. Returning to menu...\n";
+        setColor(WHITE);
+        delay(1);
+        return;
+    }
+    strncpy(emp->lastName, lastName.c_str(), 49);
+    emp->lastName[49] = '\0';
 
-    cout << "  Enter Position: ";
-    cin >> emp->position;
-    cin.ignore();  
-    cout << "  Enter Salary: ";
-    cin >> emp->salary;
-    cin.ignore();  
+    // Get Position with validation
+    string position = getValidatedInput("  Enter Position: ", true);
+    if (position.empty())
+    {
+        setColor(YELLOW);
+        cout << "\n  Cancelled. Returning to menu...\n";
+        setColor(WHITE);
+        delay(1);
+        return;
+    }
+    strncpy(emp->position, position.c_str(), 49);
+    emp->position[49] = '\0';
+
+    // Get Salary with validation
+    string salaryStr;
+    bool validSalary = false;
+    
+    while (!validSalary)
+    {
+        cout << "  Enter Salary: ";
+        getline(cin, salaryStr);
+        
+        if (salaryStr.empty())
+        {
+            setColor(YELLOW);
+            cout << "\n  Cancelled. Returning to menu...\n";
+            setColor(WHITE);
+            delay(1);
+            return;
+        }
+        
+        if (isValidSalary(salaryStr, emp->salary))
+        {
+            validSalary = true;
+        }
+        else
+        {
+            setColor(RED);
+            cout << "  ✗ Invalid salary! Please enter a positive number.\n";
+            setColor(WHITE);
+        }
+    }
 
     (*count)++;
 
@@ -190,9 +330,9 @@ void displayEmployees(Employee employees[], int count)
     if (count == 0)
     {
         setColor(YELLOW);
-        cout << "\n\n  ╔════════════════════════════════════╗\n";
+        cout << "\n\n  ╔═══════════════════════════════════╗\n";
         cout << "  ║     NO EMPLOYEES FOUND             ║\n";
-        cout << "  ╚════════════════════════════════════╝\n\n";
+        cout << "  ╚═══════════════════════════════════╝\n\n";
         setColor(WHITE);
         cout << "  Press any key to return...";
         getInput();
@@ -200,9 +340,9 @@ void displayEmployees(Employee employees[], int count)
     }
 
     setColor(CYAN);
-    cout << "\n\n  ╔═══════════════════════════════════════════════════════════════════════════════╗\n";
+    cout << "\n\n  ╔══════════════════════════════════════════════════════════════════════════════╗\n";
     cout << "  ║                           EMPLOYEES LIST                                      ║\n";
-    cout << "  ╚═══════════════════════════════════════════════════════════════════════════════╝\n\n";
+    cout << "  ╚══════════════════════════════════════════════════════════════════════════════╝\n\n";
     setColor(WHITE);
 
     cout << "  ┌────┬─────────────┬─────────────┬──────────────────────┬─────────────┐\n";

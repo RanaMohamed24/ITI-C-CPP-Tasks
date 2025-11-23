@@ -63,8 +63,13 @@ void drawButtons(int selected);
 int getInput();
 void openScreen(const std::string &title);
 
-// Employee functions
+
 void addEmployee(Employee employees[], int *count);
 void displayEmployees(Employee employees[], int count);
+
+
+bool isValidName(const std::string &name);
+bool isValidSalary(const std::string &salaryStr, double &salary);
+std::string getValidatedInput(const std::string &prompt, bool isName);
 
 #endif
