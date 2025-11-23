@@ -1,5 +1,7 @@
 #include "header.h"
 #include <iostream>
+
+
 using namespace std;
 void swap_by_add(int &a, int &b){
     a = a + b;
@@ -32,13 +34,14 @@ void swap_by_multiply(int &a, int &b){
     
 }
 
-void Array2D(int arr[][MAX], int rows, int cols) {
+void Arr(int arr[][MAX], int rows, int cols) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            cin >> arr[i][j];
+            arr[i][j] = i + j;
         }
     }
 }
+
 
 void DisplayArray(int arr[][MAX], int rows, int cols) {
      cout << "The Array is:" << endl;

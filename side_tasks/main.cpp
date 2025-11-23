@@ -39,7 +39,7 @@ int main(){
 
     int arr[MAX][MAX];
 
-    Array2D(arr, rows, cols);
+    Arr(arr, rows, cols);
     DisplayArray(arr, rows, cols);
     
     return 0;

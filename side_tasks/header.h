@@ -7,7 +7,8 @@
 void swap_by_add(int &a, int &b);
 void swap_by_xor(int &a, int &b);
 void swap_by_multiply(int &a, int &b);
-void Array2D(int arr[][MAX], int rows, int cols) ;
+
+void Arr(int arr[][MAX], int rows, int cols) ;
 void DisplayArray(int arr[][MAX], int rows, int cols);
 
 
