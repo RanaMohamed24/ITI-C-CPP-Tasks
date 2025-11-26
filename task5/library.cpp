@@ -244,7 +244,7 @@ void addEmployee(Employee employees[], int *count)
     
     cout << "  Employee ID: " << emp->id << " \n\n";
 
-    // Get First Name with validation
+
     string firstName = getValidatedInput("  Enter First Name: ", true);
     if (firstName.empty())
     {
@@ -257,7 +257,7 @@ void addEmployee(Employee employees[], int *count)
     strncpy(emp->firstName, firstName.c_str(), 49);
     emp->firstName[49] = '\0';
 
-    // Get Last Name with validation
+
     string lastName = getValidatedInput("  Enter Last Name: ", true);
     if (lastName.empty())
     {
@@ -270,7 +270,7 @@ void addEmployee(Employee employees[], int *count)
     strncpy(emp->lastName, lastName.c_str(), 49);
     emp->lastName[49] = '\0';
 
-    // Get Position with validation
+
     string position = getValidatedInput("  Enter Position: ", true);
     if (position.empty())
     {
@@ -283,7 +283,6 @@ void addEmployee(Employee employees[], int *count)
     strncpy(emp->position, position.c_str(), 49);
     emp->position[49] = '\0';
 
-    // Get Salary with validation
     string salaryStr;
     bool validSalary = false;
     
