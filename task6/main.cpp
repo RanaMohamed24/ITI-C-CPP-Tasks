@@ -4,6 +4,9 @@ using namespace std;
 
 int main()
 {
+    TextEditor editor;
+    editor.buffer = nullptr;
+    
     int selected = 0;
     const int totalButtons = 3;
 
@@ -26,27 +29,24 @@ int main()
         else if (key == KeyEnter)
         {
             if (selected == 0)
-                newScreen();
+                newScreen(editor);
             else if (selected == 1)
                 displayScreen();
             else if (selected == 2)
-                exitScreen();
+                exitScreen(editor);
         }
         else if (key == KeyEsc)
         {
-           if (textBuffer != nullptr)
-                delete[] textBuffer;
+            cleanupTextEditor(&editor);
             clearScreen();
             exit(0);
         }
 
-        
         clearScreen();
         drawButtons(selected);
         cout.flush();
     }
 
+    cleanupTextEditor(&editor);
     return 0;
 }
-
-
