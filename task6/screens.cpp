@@ -1,4 +1,7 @@
-#include "header.h"
+#include "screens.h"
+#include "keyboard.h"
+#include "ui.h"
+#include "editor.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -10,15 +13,10 @@ using namespace std;
 void newScreen(TextEditor& editor)
 {
     clearScreen();
-    moveCursor(3, 5);
-    setColor(CYAN);
-    cout << "=== NEW TEXT EDITOR ===" << endl;
-    setColor(WHITE);
-    
-    moveCursor(4, 5);
-    setColor(YELLOW);
-    cout << "(Press ESC to return to menu)" << endl;
-    setColor(WHITE);
+    printHeader("=== NEW TEXT EDITOR ===", 3, 5);
+    cout << endl;
+    printColoredMessage("(Press ESC to return to menu)", 4, 5, YELLOW);
+    cout << endl;
 
     int size = readNumber("Enter buffer size (max characters): ", 6, 5, MIN_BUFFER_SIZE, MAX_BUFFER_SIZE);
 
@@ -31,14 +29,12 @@ void newScreen(TextEditor& editor)
     initTextEditor(&editor, size);
 
     clearScreen();
-    moveCursor(1, 1);
-    setColor(GREEN);
-    cout << "=== EDITING (ESC to save/discard or return to menu) ===" << endl;
-    setColor(YELLOW);
-    cout << "Buffer Size: " << size << " | Length: 0" << endl;
-    setColor(CYAN);
-    cout << "Press ESC to return to menu or save your work" << endl;
-    setColor(WHITE);
+    printColoredMessage("=== EDITING (ESC to save/discard or return to menu) ===", 1, 1, GREEN);
+    cout << endl;
+    printColoredMessage("Buffer Size: " + to_string(size) + " | Length: 0", 2, 1, YELLOW);
+    cout << endl;
+    printColoredMessage("Press ESC to return to menu or save your work", 3, 1, CYAN);
+    cout << endl;
     moveCursor(EDITOR_START_ROW+1, EDITOR_START_COL);
     cout.flush();
 
@@ -49,10 +45,8 @@ void newScreen(TextEditor& editor)
         if (key == KeyEsc)
         {
             clearScreen();
-            moveCursor(5, 30);
-            setColor(CYAN);
-            cout << "=== OPTIONS ===" << endl;
-            setColor(WHITE);
+            printHeader("=== OPTIONS ===", 5, 30);
+            cout << endl;
 
             moveCursor(7, 30);
             cout << "1. Save to file";
@@ -135,19 +129,14 @@ void newScreen(TextEditor& editor)
 void displayScreen()
 {
     clearScreen();
-    moveCursor(3, 5);
-    setColor(CYAN);
-    cout << "=== DISPLAY FILE CONTENT ===" << endl;
-    setColor(WHITE);
+    printHeader("=== DISPLAY FILE CONTENT ===", 3, 5);
+    cout << endl;
 
     string filename = readString("Enter filename: ", 5, 5);
 
     if (filename.empty())
     {
-        moveCursor(7, 5);
-        setColor(RED);
-        cout << "No filename entered!";
-        setColor(WHITE);
+        printError("No filename entered!", 7, 5);
     }
     else
     {
@@ -163,10 +152,8 @@ void displayScreen()
             int fileSize = file.tellg();
             file.seekg(0, ios::beg);
 
-            moveCursor(7, 5);
-            setColor(GREEN);
-            cout << "File: " << filename << " (" << fileSize << " characters)" << endl;
-            setColor(WHITE);
+            printColoredMessage("File: " + filename + " (" + to_string(fileSize) + " characters)", 7, 5, GREEN);
+            cout << endl;
             moveCursor(9, 5);
             cout << string(70, '-') << endl;
             moveCursor(10, 5);
@@ -190,35 +177,24 @@ void displayScreen()
         }
         catch (const exception& e)
         {
-            moveCursor(7, 5);
-            setColor(RED);
-            cout << "Error: " << e.what();
-            setColor(WHITE);
+            printError("Error: " + string(e.what()), 7, 5);
         }
     }
 
-    moveCursor(20, 5);
-    cout << "Press any key to return to menu...";
-    getChar();
+    waitForKey("Press any key to return to menu...", 20, 5);
 }
 
 void exitScreen(TextEditor& editor)
 {
     clearScreen();
-    moveCursor(10, 30);
-    setColor(RED);
-    cout << "Are you sure you want to exit? (y/n): ";
-    setColor(WHITE);
+    printColoredMessage("Are you sure you want to exit? (y/n): ", 10, 30, RED);
     cout.flush();
 
     char ch = getChar();
     if (ch == 'y' || ch == 'Y')
     {
         clearScreen();
-        moveCursor(12, 30);
-        setColor(GREEN);
-        cout << "Goodbye!";
-        setColor(WHITE);
+        printColoredMessage("Goodbye!", 12, 30, GREEN);
         moveCursor(14, 30);
         cout << "Exiting...";
 
@@ -237,10 +213,7 @@ void saveToFile(TextEditor& editor)
 
     if (filename.empty())
     {
-        moveCursor(15, 5);
-        setColor(RED);
-        cout << "No filename entered! Press any key...";
-        setColor(WHITE);
+        printError("No filename entered! Press any key...", 15, 5);
         getChar();
         return;
     }
@@ -267,84 +240,60 @@ void saveToFile(TextEditor& editor)
         }
 
         moveCursor(16, 5);
-        try
+        bool success = false;
+        if (mode == 'A' || mode == 'a')
         {
-            if (mode == 'A' || mode == 'a')
-            {
-                setColor(YELLOW);
-                cout << "Appending to file...";
-                setColor(WHITE);
-                ofstream file(filename, ios::app | ios::binary);
-                if (file.is_open())
-                {
-                    file.write(editor.buffer, editor.currentLength);
-                    file.close();
-                }
-                else
-                {
-                    throw runtime_error("Could not open file");
-                }
-            }
-            else
-            {
-                setColor(YELLOW);
-                cout << "Overwriting file...";
-                setColor(WHITE);
-                ofstream file(filename, ios::binary);
-                if (file.is_open())
-                {
-                    file.write(editor.buffer, editor.currentLength);
-                    file.close();
-                }
-                else
-                {
-                    throw runtime_error("Could not open file");
-                }
-            }
+            printColoredMessage("Appending to file...", 16, 5, YELLOW);
+            success = writeToFile(filename, editor.buffer, editor.currentLength, true);
         }
-        catch (const exception& e)
+        else
         {
-            moveCursor(17, 5);
-            setColor(RED);
-            cout << "Error saving file: " << e.what();
-            setColor(WHITE);
-            moveCursor(18, 5);
-            cout << "Press any key...";
-            getChar();
+            printColoredMessage("Overwriting file...", 16, 5, YELLOW);
+            success = writeToFile(filename, editor.buffer, editor.currentLength, false);
+        }
+        
+        if (!success)
+        {
+            printError("Error saving file: Could not open file", 17, 5);
+            waitForKey("Press any key...", 18, 5);
             return;
         }
     }
     else
     {
-        try
+        if (!writeToFile(filename, editor.buffer, editor.currentLength, false))
         {
-            ofstream file(filename, ios::binary);
-            if (file.is_open())
-            {
-                file.write(editor.buffer, editor.currentLength);
-                file.close();
-            }
-            else
-            {
-                throw runtime_error("Could not open file");
-            }
-        }
-        catch (const exception& e)
-        {
-            moveCursor(16, 5);
-            setColor(RED);
-            cout << "Error saving file: " << e.what();
-            setColor(WHITE);
-            moveCursor(17, 5);
-            cout << "Press any key...";
-            getChar();
+            printError("Error saving file: Could not open file", 16, 5);
+            waitForKey("Press any key...", 17, 5);
             return;
         }
     }
 
-    moveCursor(17, 5);
-    setColor(GREEN);
-    cout << "File saved! Press any key...";
-    setColor(WHITE);
+    printColoredMessage("File saved! Press any key...", 17, 5, GREEN);
     getChar();
 }
+
+bool writeToFile(const string& filename, const char* data, int length, bool append)
+{
+    try
+    {
+        ios::openmode mode = ios::binary;
+        if (append)
+            mode |= ios::app;
+        
+        ofstream file(filename, mode);
+        if (!file.is_open())
+        {
+            throw runtime_error("Could not open file");
+        }
+        
+        file.write(data, length);
+        file.close();
+        return true;
+    }
+    catch (const exception&)
+    {
+        return false;
+    }
+}
+

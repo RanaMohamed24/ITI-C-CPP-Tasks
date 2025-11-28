@@ -1,4 +1,5 @@
-#include "header.h"
+#include "keyboard.h"
+#include "ui.h"
 #include <iostream>
 #include <string>
 #include <unistd.h>
@@ -8,52 +9,6 @@
 #include <stdexcept>
 
 using namespace std;
-
-int linuxColorMap[] = {30, 31, 32, 33, 34, 35, 36, 37};
-
-void setColor(Color color)
-{
-    cout << "\033[" << linuxColorMap[(int)color] << "m";
-}
-
-void clearScreen()
-{
-    system("clear");
-}
-
-void moveCursor(int row, int col)
-{
-    cout << "\033[" << row << ";" << col << "H";
-}
-
-void drawButton(int row, int col, const string &text, bool selected)
-{
-    int width = (int)text.length() + 6;
-    Color frameColor = selected ? GREEN : WHITE;
-
-    setColor(frameColor);
-
-    moveCursor(row, col);
-    cout << "+" << string(width - 2, '-') << "+";
-
-    moveCursor(row + 1, col);
-    cout << "|  " << text << "  |";
-
-    moveCursor(row + 2, col);
-    cout << "+" << string(width - 2, '-') << "+";
-
-    setColor(WHITE);
-}
-
-void drawButtons(int selected)
-{
-    int startRow = 10;
-    int col = 40;
-
-    drawButton(startRow, col, "NEW", selected == 0);
-    drawButton(startRow + 4, col, "DISPLAY", selected == 1);
-    drawButton(startRow + 8, col, "EXIT", selected == 2);
-}
 
 static void enableRaw()
 {
@@ -80,7 +35,6 @@ char getChar()
     return c;
 }
 
-
 static bool readRawChar(unsigned char& c)
 {
     enableRaw();
@@ -88,7 +42,6 @@ static bool readRawChar(unsigned char& c)
     disableRaw();
     return n > 0;
 }
-
 
 static bool hasInputAvailable(int timeoutMicroseconds = 30000)
 {
@@ -102,7 +55,6 @@ static bool hasInputAvailable(int timeoutMicroseconds = 30000)
 
     return select(STDIN_FILENO + 1, &rfds, nullptr, nullptr, &tv) == 1;
 }
-
 
 static Key handleEscapeSequence()
 {
@@ -138,25 +90,20 @@ static Key readKey()
     if (!readRawChar(c))
         return KeyNone;
 
-    
     if (c == 27)
     {
-       
         if (hasInputAvailable())
             return handleEscapeSequence();
         else
-            return KeyEsc;  
+            return KeyEsc;
     }
-
 
     if (c == '\n' || c == '\r')
         return KeyEnter;
 
-  
     if (c == 127 || c == 8)
         return KeyBackspace;
 
-   
     return (Key)c;
 }
 

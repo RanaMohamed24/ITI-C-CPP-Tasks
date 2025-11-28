@@ -1,4 +1,8 @@
-#include "header.h"
+#include "types.h"
+#include "keyboard.h"
+#include "ui.h"
+#include "screens.h"
+#include "editor.h"
 #include <iostream>
 using namespace std;
 

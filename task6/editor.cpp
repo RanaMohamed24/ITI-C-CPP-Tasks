@@ -1,6 +1,8 @@
-#include "header.h"
+#include "editor.h"
+#include "ui.h"
 
 #include <iostream>
+#include <cstring>
 
 using namespace std;
 
