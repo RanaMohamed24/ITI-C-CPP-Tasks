@@ -3,19 +3,18 @@
 
 #include "../BaseType/basetype.h"
 #include <iostream>
+#include <vector>
+#include <memory>
+#include <string>
 using namespace std;
 
 class List : public basetype
 {
 private:
-    basetype **data;
-    int cap;
-    int size;
-
-    void expand();
+    vector<unique_ptr<basetype>> data;
 
 public:
-    List(int capacity = 8);
+    List(int capacity = 8); 
     ~List();
 
     void add(basetype *obj);

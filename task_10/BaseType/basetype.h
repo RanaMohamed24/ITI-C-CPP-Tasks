@@ -8,8 +8,8 @@ using namespace std;
 class basetype
 {
 public:
-    virtual void print() = 0;      // لطباعة القيمة
-    virtual basetype *clone() = 0; // لعمل نسخة جديدة
+    virtual void print() = 0;     
+    virtual basetype *clone() = 0; 
     virtual ~basetype() {}
 };
 

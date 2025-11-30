@@ -1,7 +1,7 @@
 #ifndef LISTUTILS_H
 #define LISTUTILS_H
 
-#include "List.h"
+#include "list.h"
 #include <string>
 #include <sstream>
 using namespace std;
