@@ -5,7 +5,59 @@
 #include "../BaseType/charType.h"
 #include "../BaseType/stringType.h"
 
+// Item implementation
+Item::Item(List *l, int idx) : list(l), index(idx) {}
 
+Item &Item::operator=(int v)
+{
+    list->set(index, v);
+    return *this;
+}
+
+Item &Item::operator=(float v)
+{
+    list->set(index, v);
+    return *this;
+}
+
+Item &Item::operator=(double v)
+{
+    list->set(index, v);
+    return *this;
+}
+
+Item &Item::operator=(char v)
+{
+    list->set(index, v);
+    return *this;
+}
+
+Item &Item::operator=(const char *v)
+{
+    list->set(index, v);
+    return *this;
+}
+
+Item &Item::operator=(string v)
+{
+    list->set(index, v);
+    return *this;
+}
+
+Item &Item::operator=(basetype *v)
+{
+    list->set(index, v);
+    return *this;
+}
+
+Item::operator basetype *() const
+{
+    return list->get(index);
+}
+
+// List implementation
+
+// constructor/destructor
 List::List(int capacity)
 {
     data.reserve(capacity);
@@ -29,11 +81,60 @@ void List::add(char v) { data.push_back(unique_ptr<basetype>(new charType(v))); 
 void List::add(string v) { data.push_back(unique_ptr<basetype>(new stringType(v))); }
 void List::add(const char *v) { data.push_back(unique_ptr<basetype>(new stringType(string(v)))); }
 
+// set methods
+void List::set(int idx, basetype *obj)
+{
+    if (idx >= data.size())
+        data.resize(idx + 1);
+    data[idx] = unique_ptr<basetype>(obj->clone());
+}
+void List::set(int idx, int v)
+{
+    if (idx >= data.size())
+        data.resize(idx + 1);
+    data[idx] = unique_ptr<basetype>(new intType(v));
+}
+void List::set(int idx, float v)
+{
+    if (idx >= data.size())
+        data.resize(idx + 1);
+    data[idx] = unique_ptr<basetype>(new floatType(v));
+}
+void List::set(int idx, double v)
+{
+    if (idx >= data.size())
+        data.resize(idx + 1);
+    data[idx] = unique_ptr<basetype>(new doubleType(v));
+}
+void List::set(int idx, char v)
+{
+    if (idx >= data.size())
+        data.resize(idx + 1);
+    data[idx] = unique_ptr<basetype>(new charType(v));
+}
+void List::set(int idx, const char *v)
+{
+    if (idx >= data.size())
+        data.resize(idx + 1);
+    data[idx] = unique_ptr<basetype>(new stringType(string(v)));
+}
+void List::set(int idx, string v)
+{
+    if (idx >= data.size())
+        data.resize(idx + 1);
+    data[idx] = unique_ptr<basetype>(new stringType(v));
+}
+
 basetype *List::get(int idx)
 {
     if (idx < 0 || idx >= data.size())
         return nullptr;
     return data[idx].get();
+}
+
+Item List::operator[](int idx)
+{
+    return Item(this, idx);
 }
 
 int List::getSize() { return data.size(); }
@@ -43,7 +144,11 @@ void List::print()
     cout << "[ ";
     for (size_t i = 0; i < data.size(); i++)
     {
-        data[i]->print();
+        if (data[i])
+            data[i]->print();
+        else
+            cout << "null";
+            
         if (i != data.size() - 1)
             cout << ", ";
     }
