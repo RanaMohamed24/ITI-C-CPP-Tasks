@@ -36,7 +36,7 @@ int main()
     List l2;
     l2[0]=2;
     l2[2]="gap";
-    cout << "Alist l2: ";
+    cout << "list l2: ";
     l2.print();
     cout << endl;
 
