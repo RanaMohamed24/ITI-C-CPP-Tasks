@@ -1,8 +1,7 @@
-#include "Complex.h"
+#include "complex.h"
 #include <cmath>
 #include <stdexcept>
-#include <sstream> // Added for string conversion
-
+#include <sstream> 
 using namespace std;
 
 Complex::Complex() : real(0), imag(0)
@@ -178,23 +177,6 @@ bool Complex::operator>=(const Complex &other) const
     return getMagnitude() >= other.getMagnitude();
 }
 
-bool Complex::operator!() const
-{
-    return (real == 0 && imag == 0);
-}
-
-// Fixed: Simplified logic
-bool Complex::operator&&(const Complex &other) const
-{
-    return (*this && other) ? true : false;
-}
-
-// Fixed: Simplified logic
-bool Complex::operator||(const Complex &other) const
-{
-    return (*this || other) ? true : false;
-}
-
 double Complex::getMagnitude() const
 {
     return sqrt(real * real + imag * imag);
@@ -232,7 +214,7 @@ void Complex::setImag(double i)
 
 Complex operator+(double num, const Complex &c)
 {
-    return c + num; // Reuse existing operator
+    return c + num; 
 }
 
 Complex operator-(double num, const Complex &c)
@@ -242,7 +224,7 @@ Complex operator-(double num, const Complex &c)
 
 Complex operator*(double num, const Complex &c)
 {
-    return c * num; // Reuse existing operator
+    return c * num; 
 }
 
 Complex operator/(double num, const Complex &c)

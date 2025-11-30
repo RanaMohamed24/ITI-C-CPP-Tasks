@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include "Complex.h"
+#include "complex.h"
 
 using namespace std;
 
@@ -83,25 +83,17 @@ int main()
         Complex c19(3, 4);
         cout << "c1 == Complex(3,4): " << (c1 == c19) << endl;
 
-        printSection("LOGICAL OPERATORS");
-        Complex zero(0, 0);
-        cout << "!c1 (is zero?): " << !c1 << endl;
-        cout << "!zero (is zero?): " << !zero << endl;
-        cout << "c1 && c2: " << (c1 && c2) << endl;
-        cout << "c1 && zero: " << (c1 && zero) << endl;
-        cout << "c1 || zero: " << (c1 || zero) << endl;
-        cout << "zero || zero: " << (zero || zero) << endl;
-
         printSection("STREAM I/O");
+        Complex zero(0, 0);
         cout << "c1 using <<: " << c1 << endl;
 
         // Uncomment to test input:
-        /*
+        
         Complex c20;
         cout << "Enter a complex number:" << endl;
         cin >> c20;
         cout << "You entered: " << c20 << endl;
-        */
+        
 
         printSection("HELPER METHODS");
         cout << fixed << setprecision(4);
@@ -130,16 +122,11 @@ int main()
             cout << "Exception caught: " << e.what() << endl;
         }
 
-        printSection("CHAINED OPERATIONS");
-        Complex result = c1 + c2 * Complex(2, 0) - c3;
-        cout << "c1 + c2 * 2 - c3 = " << result << endl;
-
-        Complex c22 = c1;
-        c22 += c2 -= c3;
-        cout << "After c22 += c2 -= c3: " << c22 << endl;
+       
+        
 
         printSection("END OF TESTING");
-        cout << "All tests completed successfully!" << endl;
+       
     }
     catch (const exception &e)
     {
