@@ -15,8 +15,7 @@ public:
     
     bool push(int value);
     int pop();
-    int& top();
-    const int& top() const;
+    int top();
     bool isEmpty() const;
     bool isFull() const;
     void print() const;

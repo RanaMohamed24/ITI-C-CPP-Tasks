@@ -76,7 +76,7 @@ void Stack::print() const {
         return;
     }
     
-    cout << "Stack elements (top to bottom): ";
+    cout << "Stack elements : ";
     for (int i = topIndex; i >= 0; i--) {
         cout << arr[i] << " ";
     }
@@ -87,11 +87,13 @@ int Stack::size() const {
     return topIndex + 1;
 }
 
-int& Stack::top() {
-    return arr[topIndex];
-}
 
-const int& Stack::top() const {
+
+int Stack::top() {
+    if (isEmpty()) {
+        cout << "Stack is empty!" << endl;
+        return -1;
+    }
     return arr[topIndex];
 }
 

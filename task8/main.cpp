@@ -3,7 +3,7 @@
 using namespace std;
 
 int main() {
-    
+
     Stack s1(5);
     s1.push(10);
     s1.push(20);
@@ -68,10 +68,12 @@ int main() {
     s1.pop();
    cout << endl;
 
-    Stack s5(-5);
-    cout << "Created stack with size -5, actual capacity: " << s5.getCapacity() << endl;
+    Stack s5(5);
+    cout << s5.getCapacity() << endl;
     Stack s6(0);
-    cout << "Created stack with size 0, actual capacity: " << s6.getCapacity() << endl;
+    cout << s6.getCapacity() << endl;
+    Stack s7;
+    cout << s7.size() <<"  "<<s7.getCapacity() << endl;
 
     return 0;
 }
