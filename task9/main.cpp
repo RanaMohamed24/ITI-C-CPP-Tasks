@@ -4,36 +4,37 @@ using namespace std;
 
 int main()
 {
-   
+ 
+  
     String s = "ali";
     s += "helo";
-    cout << s << endl;
+    cout << "s = " << s << endl;
 
- 
+   
     String s1 = "Hello";
     String s2 = " World!";
     String s3 = s1 + s2;
-    cout << s3 << endl;
-
- 
-    String a = "hello";
-    String b = "hello";
-    cout << (a == b ? "Equal" : "Not equal") << endl;
-    cout << (a == s2 ? "Equal" : "Not equal") << endl;
-
- 
-    String name = "Hello";
-    name[0] = 'h';
-    cout << name << endl;
+    cout << "s3 = " << s3 << endl;
 
   
+    String a = "hello";
+    String b = "hello";
+    cout << "a == b: " << (a == b ? "Equal" : "Not equal") << endl;
+    cout << "a == s2: " << (a == s2 ? "Equal" : "Not equal") << endl;
+
+   
+    String name = "Hello";
+    name[0] = 'h';
+    cout << "name = " << name << endl;
+
+ 
     String msg = "C++";
     msg.append(" rocks!");
-    cout << msg << endl;
+    cout << "msg = " << msg << endl;
 
-    
+ 
     String copy = s;
-    cout << copy << endl;
+    cout << "copy = " << copy << endl;
 
-    return 0;
+   return 0;
 }

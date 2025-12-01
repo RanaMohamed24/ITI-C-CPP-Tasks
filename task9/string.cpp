@@ -2,46 +2,38 @@
 
 
 
-int String::calcLength(const char *str) const
+size_t String::calcLength(const char *str) const
 {
-    int len = 0;
+    if (!str) return 0;
+    size_t len = 0;
     while (str[len] != '\0')
         len++;
     return len;
 }
 
-void String::copyData(char *dest, const char *src)
+void String::copyData(char *dest, const char *src) const
 {
-    int i = 0;
-    while (src[i] != '\0')
-    {
-        dest[i] = src[i];
-        i++;
+    if (!src) {
+        dest[0] = '\0';
+        return;
     }
-    dest[i] = '\0';
+    
+    while ((*dest++ = *src++));
 }
 
-void String::concatData(char *dest, const char *src)
+void String::concatData(char *dest, const char *src) const
 {
-   
-    int i = 0;
-    while (dest[i] != '\0')
-        i++;
+    if (!src) return;
     
    
-    int j = 0;
-    while (src[j] != '\0')
-    {
-        dest[i] = src[j];
-        i++;
-        j++;
-    }
-    dest[i] = '\0';
+    while (*dest) dest++;
+
+    copyData(dest, src);
 }
 
 int String::compareData(const char *s1, const char *s2) const
 {
-    int i = 0;
+    size_t i = 0;
     while (s1[i] != '\0' && s2[i] != '\0')
     {
         if (s1[i] != s2[i])
@@ -51,29 +43,34 @@ int String::compareData(const char *s1, const char *s2) const
     return (s1[i] - s2[i]);
 }
 
-
-
-void String::resize(int new_capacity)
+void String::resize(size_t new_capacity)
 {
     if (new_capacity <= capacity) return;
 
-    while (capacity < new_capacity) capacity *= 2;
+    size_t new_cap = capacity;
+    while (new_cap < new_capacity) 
+        new_cap *= 2;
 
-    char *new_data = new char[capacity];
+    char *new_data = new char[new_cap];
     if (data) {
-        copyData(new_data, data); // Manual copy
+        copyData(new_data, data);
         delete[] data;
+    } else {
+        new_data[0] = '\0';
     }
+    
     data = new_data;
+    capacity = new_cap;
 }
 
-String::String() : length(0), capacity(16)
+
+String::String() : data(nullptr), length(0), capacity(16)
 {
     data = new char[capacity];
     data[0] = '\0';
 }
 
-String::String(const char *str) : length(0), capacity(16)
+String::String(const char *str) : data(nullptr), length(0), capacity(16)
 {
     if (str == nullptr) {
         data = new char[capacity];
@@ -81,54 +78,71 @@ String::String(const char *str) : length(0), capacity(16)
         return;
     }
 
-    length = calcLength(str); 
-    capacity = length + 1 > 16 ? length + 1 : 16;
+    length = calcLength(str);
+    capacity = (length + 1 > 16) ? (length + 1) : 16;
     data = new char[capacity];
-    copyData(data, str); 
+    copyData(data, str);
 }
 
-String::String(const String &other) : length(other.length), capacity(other.capacity)
+String::String(const String &other) 
+    : data(nullptr), length(other.length), capacity(other.capacity)
 {
     data = new char[capacity];
-    copyData(data, other.data); 
+    copyData(data, other.data);
 }
 
-String::~String()
+String::String(String &&other) noexcept
+    : data(other.data), length(other.length), capacity(other.capacity)
+{
+    other.data = nullptr;
+    other.length = 0;
+    other.capacity = 0;
+}
+
+String::~String() noexcept
 {
     delete[] data;
-}
-
-String &String::operator=(const char *str)
-{
-    if (str == nullptr) str = "";
-    
-    int new_len = calcLength(str);
-    if (new_len + 1 > capacity) resize(new_len + 1);
-
-    copyData(data, str);
-    length = new_len;
-    return *this;
 }
 
 String &String::operator=(const String &other)
 {
     if (this == &other) return *this;
 
-    if (other.length + 1 > capacity) resize(other.length + 1);
+    if (other.length + 1 > capacity) 
+        resize(other.length + 1);
 
-    copyData(data, other.data); 
+    copyData(data, other.data);
     length = other.length;
     return *this;
 }
+
+String &String::operator=(String &&other) noexcept
+{
+    if (this != &other) {
+        delete[] data;
+        
+        data = other.data;
+        length = other.length;
+        capacity = other.capacity;
+        
+        other.data = nullptr;
+        other.length = 0;
+        other.capacity = 0;
+    }
+    return *this;
+}
+
+
 
 String &String::operator+=(const char *str)
 {
     if (str == nullptr) return *this;
 
-    int str_len = calcLength(str);
-    if (length + str_len + 1 > capacity) resize(length + str_len + 1);
+    size_t str_len = calcLength(str);
+    if (length + str_len + 1 > capacity) 
+        resize(length + str_len + 1);
 
-    concatData(data, str); 
+    concatData(data, str);
     length += str_len;
     return *this;
 }
@@ -138,78 +152,73 @@ String &String::operator+=(const String &other)
     return *this += other.data;
 }
 
-String String::operator+(const char *str) const
-{
-    String result = *this;
-    result += str;
-    return result;
-}
+
 
 String String::operator+(const String &other) const
 {
-    String result = *this;
-    result += other;
+    String result;
+    result.resize(length + other.length + 1);
+    result.data[0] = '\0';  
+    
+    if (data) {
+        copyData(result.data, data);
+        result.length = length;
+    }
+    
+    if (other.data) {
+        concatData(result.data, other.data);
+        result.length += other.length;
+    }
+    
     return result;
 }
 
-bool String::operator==(const String &other) const
+String String::operator+(const char *str) const
 {
-    return compareData(data, other.data) == 0; 
+    if (!str) return *this;
+    return *this + String(str);
 }
 
-bool String::operator!=(const String &other) const
+
+
+bool String::operator==(const String &other) const noexcept
+{
+    return compareData(data, other.data) == 0;
+}
+
+bool String::operator!=(const String &other) const noexcept
 {
     return !(*this == other);
 }
 
-char &String::operator[](int index)
+
+
+char &String::operator[](size_t index)
 {
+    if (index >= length)
+        throw std::out_of_range("String index out of range");
     return data[index];
 }
 
-const char &String::operator[](int index) const
+const char &String::operator[](size_t index) const
 {
+    if (index >= length)
+        throw std::out_of_range("String index out of range");
     return data[index];
 }
 
-void String::append(const String &other)
-{
-    *this += other;
-}
 
-void String::append(const char *str)
-{
-    *this += str;
-}
 
-int String::getLength() const
-{
-    return length;
-}
-
-int String::getCapacity() const
-{
-    return capacity;
-}
-
-const char *String::c_str() const
-{
-    return data;
-}
-
-bool String::isEmpty() const
-{
-    return length == 0;
-}
-
-void String::clear()
+void String::clear() noexcept
 {
     length = 0;
-    data[0] = '\0';
+    if (data) data[0] = '\0';
 }
+
 
 std::ostream &operator<<(std::ostream &os, const String &str)
 {
-    os << str.data;
+    if (str.data)
+        os << str.data;
     return os;
 }
