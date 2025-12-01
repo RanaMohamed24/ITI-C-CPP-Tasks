@@ -54,10 +54,6 @@ Item::operator basetype *() const
 {
     return list->get(index);
 }
-
-// List implementation
-
-// constructor/destructor
 List::List(int capacity)
 {
     data.reserve(capacity);
@@ -67,8 +63,6 @@ List::~List()
 {
     
 }
-
-
 void List::add(basetype *obj)
 {
     
@@ -81,7 +75,7 @@ void List::add(char v) { data.push_back(unique_ptr<basetype>(new charType(v))); 
 void List::add(string v) { data.push_back(unique_ptr<basetype>(new stringType(v))); }
 void List::add(const char *v) { data.push_back(unique_ptr<basetype>(new stringType(string(v)))); }
 
-// set methods
+
 void List::set(int idx, basetype *obj)
 {
     if (idx >= data.size())
