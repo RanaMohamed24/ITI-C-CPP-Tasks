@@ -6,8 +6,8 @@
 
 class Circle {
 private:
-    Point cen; // center
-    int r;     // radius
+    Point cen; 
+    int r;    
     
     void drawCirclePoints(SDL_Renderer* renderer, int xc, int yc, int x, int y);
     

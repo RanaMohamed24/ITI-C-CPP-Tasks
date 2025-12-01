@@ -26,15 +26,13 @@ int main() {
     lArr[1] = Line(Point(320, 140), Point(400, 300));
     lArr[2] = Line(240, 300, 280, 300);
     lArr[3] = Line(360, 300, 400, 300);
-    
-    // ===== Set shapes into Picture =====
+  
     myPic.setCircles(1, cArr);
     myPic.setRects(2, rArr);
     myPic.setLines(4, lArr);
     
     myPic.print();
-    
-    // ===== SDL Init =====
+ 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << endl;
         return 1;
