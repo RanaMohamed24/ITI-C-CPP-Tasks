@@ -98,7 +98,15 @@ Complex &Complex::operator*=(const Complex &other)
 
 Complex &Complex::operator/=(const Complex &other)
 {
-    *this = *this / other;
+    double denominator = other.real * other.real + other.imag * other.imag;
+    if (denominator == 0)
+    {
+        throw runtime_error("Division by zero!");
+    }
+    double newReal = (real * other.real + imag * other.imag) / denominator;
+    double newImag = (imag * other.real - real * other.imag) / denominator;
+    real = newReal;
+    imag = newImag;
     return *this;
 }
 
@@ -116,10 +124,7 @@ Complex Complex::operator-() const
     return Complex(-real, -imag);
 }
 
-Complex Complex::operator+() const
-{
-    return *this;
-}
+
 
 Complex &Complex::operator++()
 {

@@ -54,8 +54,6 @@ int main()
 
         printSection("UNARY OPERATORS");
         cout << "-c1 = " << (-c1) << endl;
-        cout << "+c1 = " << (+c1) << endl;
-
         Complex c15 = c1;
         cout << "Before ++c15: " << c15 << endl;
         ++c15;
@@ -72,7 +70,7 @@ int main()
         cout << "After --c18: " << c18 << endl;
 
         printSection("COMPARISON OPERATORS");
-        cout << boolalpha; // Print true/false instead of 1/0
+        cout << boolalpha; 
         cout << "c1 == c2: " << (c1 == c2) << endl;
         cout << "c1 != c2: " << (c1 != c2) << endl;
         cout << "c1 < c2: " << (c1 < c2) << endl;
@@ -87,7 +85,7 @@ int main()
         Complex zero(0, 0);
         cout << "c1 using <<: " << c1 << endl;
 
-        // Uncomment to test input:
+       
         
         Complex c20;
         cout << "Enter a complex number:" << endl;
@@ -95,7 +93,7 @@ int main()
         cout << "You entered: " << c20 << endl;
         
 
-        printSection("HELPER METHODS");
+        
         cout << fixed << setprecision(4);
         cout << "c1.getMagnitude(): " << c1.getMagnitude() << endl;
 
@@ -107,11 +105,9 @@ int main()
         c21.setImag(-3);
         cout << "After setReal(5) and setImag(-3): " << c21 << endl;
 
-        printSection("DISPLAY METHOD");
-        cout << "Using display(): ";
         c1.display();
 
-        printSection("DIVISION BY ZERO TEST");
+       
         try
         {
             Complex result = c1 / zero;
@@ -121,12 +117,6 @@ int main()
         {
             cout << "Exception caught: " << e.what() << endl;
         }
-
-       
-        
-
-        printSection("END OF TESTING");
-       
     }
     catch (const exception &e)
     {

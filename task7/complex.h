@@ -42,7 +42,7 @@ public:
     Complex &operator=(const Complex &other);
 
     Complex operator-() const;
-    Complex operator+() const;
+   
 
     Complex &operator++();
     Complex operator++(int);
