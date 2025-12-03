@@ -5,7 +5,7 @@
 #include "../BaseType/charType.h"
 #include "../BaseType/stringType.h"
 
-// Item implementation
+
 Item::Item(List *l, int idx) : list(l), index(idx) {}
 
 Item &Item::operator=(int v)
