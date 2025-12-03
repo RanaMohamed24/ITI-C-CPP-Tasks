@@ -74,7 +74,7 @@ void waitForKey(const string& message, int row, int col)
     cout << message;
     cout.flush();
     
-    // Forward declaration - we need getChar from keyboard module
+   
     extern char getChar();
     getChar();
 }

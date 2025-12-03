@@ -13,7 +13,7 @@ void initTextEditor(TextEditor* editor, int size)
     editor->currentLength = 0;
     editor->cursorRow = 0;
     editor->cursorCol = 0;
-    editor->scrollOffset = 0;
+   
 }
 
 bool insertChar(TextEditor* editor, char ch)
@@ -161,7 +161,7 @@ void cleanupTextEditor(TextEditor* editor)
     editor->currentLength = 0;
     editor->cursorRow = 0;
     editor->cursorCol = 0;
-    editor->scrollOffset = 0;
+   
 }
 
 int getAbsoluteCursorPos(const TextEditor* editor)

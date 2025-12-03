@@ -41,7 +41,7 @@ struct TextEditor
     int currentLength;
     int cursorRow;
     int cursorCol;
-    int scrollOffset;
+   
 };
 
 #endif
