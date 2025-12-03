@@ -12,7 +12,8 @@ int main()
 
    
     String s1 = "Hello";
-    String s2 = " World!";
+    String s2 = "World!";
+    cout<<"s2[0] = "<<s2[0]<<endl;
     String s3 = s1 + s2;
     cout << "s3 = " << s3 << endl;
 
