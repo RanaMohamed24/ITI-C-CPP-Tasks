@@ -30,11 +30,11 @@ int main()
         {
             if (selected == 0)
             {
-                addEmployee(employees, &employeeCount);  // Add new employee
+                addEmployee(employees, &employeeCount);  
             }
             else if (selected == 1)
             {
-                displayEmployees(employees, employeeCount);  // Display all employees
+                displayEmployees(employees, employeeCount);  
             }
             else if (selected == 2)
             {
