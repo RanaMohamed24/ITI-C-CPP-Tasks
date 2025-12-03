@@ -24,6 +24,9 @@ int main()
         cout << "c2 = " << c2 << endl;
         cout << "c3 = " << c3 << endl;
 
+        cout << "Real: " << c1[0] << endl;  
+        cout << "Imag: " << c1[1] << endl;  
+
         printSection("BINARY ARITHMETIC");
         cout << "c1 + c2 = " << (c1 + c2) << endl;
         cout << "c1 - c2 = " << (c1 - c2) << endl;

@@ -42,6 +42,7 @@ public:
     Complex &operator=(const Complex &other);
 
     Complex operator-() const;
+    const double& operator[](int index) const;
    
 
     Complex &operator++();

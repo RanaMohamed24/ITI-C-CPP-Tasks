@@ -260,3 +260,13 @@ istream &operator>>(istream &is, Complex &c)
     is >> c.imag;
     return is;
 }
+
+const double& Complex::operator[](int index) const
+{
+    if (index == 0)
+        return real;
+    else if (index == 1)
+        return imag;
+    else
+        throw out_of_range("Index must be 0 (real) or 1 (imag)");
+}
