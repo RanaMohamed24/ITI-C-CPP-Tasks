@@ -2,9 +2,10 @@
 #define CIRCLE_H
 
 #include "./point.h"
+#include "./shape.h"
 #include <SDL2/SDL.h>
 
-class Circle {
+class Circle : public Shape {
 private:
     Point cen; 
     int r;    
@@ -17,8 +18,8 @@ public:
     Circle(Point p, int _r);
     ~Circle();
     
-    void draw(SDL_Renderer* renderer);
-    void print();
+    void draw(SDL_Renderer* renderer) override;
+    void print() override;
 };
 
 #endif

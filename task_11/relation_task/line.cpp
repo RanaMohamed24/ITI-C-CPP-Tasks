@@ -1,15 +1,16 @@
 #include "line.h"
+using namespace std;
 
 Line::Line() : start(), end() {
-    cout << "Line Default Constructor" << endl;
+   
 }
 
 Line::Line(int x1, int y1, int x2, int y2) : start(x1, y1), end(x2, y2) {
-    cout << "Line Parameterized Constructor" << endl;
+   
 }
 
 Line::Line(Point p1, Point p2) : start(p1), end(p2) {
-    cout << "Line Constructor with Points" << endl;
+    
 }
 
 Line::~Line() {

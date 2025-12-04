@@ -1,19 +1,20 @@
 #include "circle.h"
+using namespace std;
 
 Circle::Circle() : cen(), r(0) {
-    cout << "Circle Default Constructor" << endl;
+    
 }
 
 Circle::Circle(int x, int y, int _r) : cen(x, y), r(_r) {
-    cout << "Circle Parameterized Constructor" << endl;
+   
 }
 
 Circle::Circle(Point p, int _r) : cen(p), r(_r) {
-    cout << "Circle Constructor with Point" << endl;
+  
 }
 
 Circle::~Circle() {
-    cout << "Circle Destructor" << endl;
+   
 }
 void Circle::drawCirclePoints(SDL_Renderer* renderer, int xc, int yc, int x, int y) {
     SDL_RenderDrawPoint(renderer, xc + x, yc + y);

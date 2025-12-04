@@ -1,5 +1,6 @@
 #include "./picture.h"
 #include <SDL2/SDL.h>
+using namespace std;
 
 int main() {
     Picture myPic;
@@ -86,7 +87,7 @@ int main() {
     
     delete[] lArr;
     
-    cout << "\nProgram ended successfully!" << endl;
+   
     
     return 0;
 }

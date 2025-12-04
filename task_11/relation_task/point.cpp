@@ -1,19 +1,20 @@
 #include "point.h"
+using namespace std;
 
 Point::Point() {
     x = 0;
     y = 0;
-    cout << "Point Default Constructor" << endl;
+  
 }
 
 Point::Point(int _x, int _y) {
     x = _x;
     y = _y;
-    cout << "Point Parameterized Constructor (" << x << ", " << y << ")" << endl;
+   
 }
 
 Point::~Point() {
-    cout << "Point Destructor (" << x << ", " << y << ")" << endl;
+    
 }
 
 int Point::getX() { return x; }

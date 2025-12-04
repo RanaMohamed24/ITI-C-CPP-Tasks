@@ -1,15 +1,16 @@
 #include "picture.h"
+using namespace std;
 
 Picture::Picture() {
     cNum = rNum = lNum = 0;
-    pC = NULL;
-    pR = NULL;
-    pL = NULL;
-    cout << "Picture Constructor" << endl;
+    pC = nullptr;
+    pR = nullptr;
+    pL = nullptr;
+   
 }
 
 Picture::~Picture() {
-    cout << "Picture Destructor" << endl;
+   
 }
 
 void Picture::setCircles(int cn, Circle* cArr) {
@@ -41,7 +42,7 @@ void Picture::draw(SDL_Renderer* renderer) {
 }
 
 void Picture::print() {
-    cout << "\n========== Picture Contents ==========" << endl;
+   
     
     cout << "\nCircles (" << cNum << "):" << endl;
     for(int i = 0; i < cNum; i++) {
@@ -61,5 +62,5 @@ void Picture::print() {
         pL[i].print();
     }
     
-    cout << "======================================\n" << endl;
+   
 }

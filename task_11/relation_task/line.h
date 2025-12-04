@@ -2,9 +2,10 @@
 #define LINE_H
 
 #include "./point.h"
+#include "./shape.h"
 #include <SDL2/SDL.h>
 
-class Line {
+class Line : public Shape {
 private:
     Point start;
     Point end;
@@ -15,8 +16,8 @@ public:
     Line(Point p1, Point p2);
     ~Line();
     
-    void draw(SDL_Renderer* renderer);
-    void print();
+    void draw(SDL_Renderer* renderer) override;
+    void print() override;
 };
 
 #endif

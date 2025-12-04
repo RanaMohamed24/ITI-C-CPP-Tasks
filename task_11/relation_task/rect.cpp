@@ -1,4 +1,5 @@
 #include "rect.h"
+using namespace std;
 
 Rect::Rect() : ul(), lr() {
     cout << "Rect Default Constructor" << endl;
@@ -13,7 +14,7 @@ Rect::Rect(Point p1, Point p2) : ul(p1), lr(p2) {
 }
 
 Rect::~Rect() {
-    cout << "Rect Destructor" << endl;
+    
 }
 
 void Rect::draw(SDL_Renderer* renderer) {

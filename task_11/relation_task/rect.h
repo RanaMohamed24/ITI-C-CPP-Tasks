@@ -2,12 +2,13 @@
 #define RECT_H
 
 #include "./point.h"
+#include "./shape.h"
 #include <SDL2/SDL.h>
 
-class Rect {
+class Rect : public Shape {
 private:
-    Point ul; // upper left
-    Point lr; // lower right
+    Point ul; 
+    Point lr; 
     
 public:
     Rect();
@@ -15,8 +16,8 @@ public:
     Rect(Point p1, Point p2);
     ~Rect();
     
-    void draw(SDL_Renderer* renderer);
-    void print();
+    void draw(SDL_Renderer* renderer) override;
+    void print() override;
 };
 
 #endif
