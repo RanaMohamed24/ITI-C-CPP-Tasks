@@ -5,20 +5,12 @@
 
 class Square : public Rectangle {
 public:
-    Square(float side = 0) : Rectangle(side, side) {}
+    Square(float side = 0);
 
-    void setSide(float s) {
-        setDim1(s);
-        setDim2(s);
-    }
+    void setSide(float s);
+    float getSide() const;
 
-    float getSide() const {
-        return getDim1();
-    }
-
-    float calculateArea() override {
-        return getSide() * getSide();
-    }
+    float calculateArea() override;
 };
 
 #endif

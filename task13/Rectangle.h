@@ -5,11 +5,9 @@
 
 class Rectangle : public GeoShape {
 public:
-    Rectangle(float w = 0, float h = 0) : GeoShape(w, h) {}
+    Rectangle(float w = 0, float h = 0);
 
-    float calculateArea() override {
-        return dim1 * dim2;
-    }
+    float calculateArea() override;
 };
 
 #endif

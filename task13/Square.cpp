@@ -1,18 +1,16 @@
-#include "Rectangle.cpp";
-class Square : private Rectangle {
-public:
-    Square(float side = 0) : Rectangle(side, side) {}
+#include "Square.h"
 
-    void setSide(float s) {
-        Rectangle::setDim1(s);
-        Rectangle::setDim2(s);
-    }
+Square::Square(float side) : Rectangle(side, side) {}
 
-    float getSide() const {
-        return Rectangle::getDim1();
-    }
+void Square::setSide(float s) {
+    setDim1(s);
+    setDim2(s);
+}
 
-    float calculateArea() {
-        return getSide() * getSide();
-    }
-};
+float Square::getSide() const {
+    return getDim1();
+}
+
+float Square::calculateArea() {
+    return getSide() * getSide();
+}
