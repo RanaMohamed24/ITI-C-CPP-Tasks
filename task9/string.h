@@ -53,7 +53,7 @@ public:
  
     size_t getLength() const noexcept { return length; }
     size_t getCapacity() const noexcept { return capacity; }
-    const char *c_str() const noexcept { return data; }
+   
     
    
     bool isEmpty() const noexcept { return length == 0; }

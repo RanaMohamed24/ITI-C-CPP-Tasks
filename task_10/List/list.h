@@ -3,8 +3,6 @@
 
 #include "../BaseType/basetype.h"
 #include <iostream>
-#include <vector>
-#include <memory>
 #include <string>
 using namespace std;
 
@@ -33,11 +31,15 @@ public:
 class List : public basetype
 {
 private:
-    vector<unique_ptr<basetype>> data;
+    basetype **data;
+    int capacity;
+    int size;
 
 public:
     List(int capacity = 8); 
     ~List();
+    List(const List& other);
+    List& operator=(const List& other);
 
     void add(basetype *obj);
     void add(int v);

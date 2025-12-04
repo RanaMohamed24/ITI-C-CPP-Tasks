@@ -30,9 +30,10 @@ int main()
     cout << "Modifying elements using operator[]:" << endl;
     l[1] = 10;
     l[2] = "Modified";
+    l.set(4, "text"); 
     l.print();
     cout << endl;
-
+   
     List l2;
     l2[0]=2;
     l2[2]="gap";

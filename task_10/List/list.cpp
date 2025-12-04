@@ -54,76 +54,223 @@ Item::operator basetype *() const
 {
     return list->get(index);
 }
-List::List(int capacity)
+List::List(int cap) : capacity(cap), size(0)
 {
-    data.reserve(capacity);
+    data = new basetype*[capacity];
+    for (int i = 0; i < capacity; i++)
+    {
+        data[i] = nullptr;
+    }
 }
 
 List::~List()
 {
-    
+    for (int i = 0; i < size; i++)
+    {
+        if (data[i] != nullptr)
+        {
+            delete data[i];
+        }
+    }
+    delete[] data;
+}
+
+List::List(const List& other) : capacity(other.capacity), size(other.size)
+{
+    data = new basetype*[capacity];
+    for (int i = 0; i < capacity; i++)
+    {
+        if (i < size && other.data[i] != nullptr)
+        {
+            data[i] = other.data[i]->clone();
+        }
+        else
+        {
+            data[i] = nullptr;
+        }
+    }
+}
+
+List& List::operator=(const List& other)
+{
+    if (this != &other)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            if (data[i] != nullptr)
+            {
+                delete data[i];
+            }
+        }
+        delete[] data;
+        
+        capacity = other.capacity;
+        size = other.size;
+        data = new basetype*[capacity];
+        
+        for (int i = 0; i < capacity; i++)
+        {
+            if (i < size && other.data[i] != nullptr)
+            {
+                data[i] = other.data[i]->clone();
+            }
+            else
+            {
+                data[i] = nullptr;
+            }
+        }
+    }
+    return *this;
 }
 void List::add(basetype *obj)
 {
+    if (size >= capacity)
+    {
+        int newCapacity = capacity * 2;
+        basetype **newData = new basetype*[newCapacity];
+        
+        for (int i = 0; i < size; i++)
+        {
+            newData[i] = data[i];
+        }
+        for (int i = size; i < newCapacity; i++)
+        {
+            newData[i] = nullptr;
+        }
+        
+        delete[] data;
+        data = newData;
+        capacity = newCapacity;
+    }
     
-    data.push_back(unique_ptr<basetype>(obj->clone()));
+    data[size] = obj->clone();
+    size++;
 }
-void List::add(int v) { data.push_back(unique_ptr<basetype>(new intType(v))); }
-void List::add(float v) { data.push_back(unique_ptr<basetype>(new floatType(v))); }
-void List::add(double v) { data.push_back(unique_ptr<basetype>(new doubleType(v))); }
-void List::add(char v) { data.push_back(unique_ptr<basetype>(new charType(v))); }
-void List::add(string v) { data.push_back(unique_ptr<basetype>(new stringType(v))); }
-void List::add(const char *v) { data.push_back(unique_ptr<basetype>(new stringType(string(v)))); }
+
+void List::add(int v) 
+{ 
+    intType *it = new intType(v);
+    add(it);
+    delete it;
+}
+
+void List::add(float v) 
+{ 
+    floatType *ft = new floatType(v);
+    add(ft);
+    delete ft;
+}
+
+void List::add(double v) 
+{ 
+    doubleType *dt = new doubleType(v);
+    add(dt);
+    delete dt;
+}
+
+void List::add(char v) 
+{ 
+    charType *ct = new charType(v);
+    add(ct);
+    delete ct;
+}
+
+void List::add(string v) 
+{ 
+    stringType *st = new stringType(v);
+    add(st);
+    delete st;
+}
+
+void List::add(const char *v) 
+{ 
+    stringType *st = new stringType(string(v));
+    add(st);
+    delete st;
+}
 
 
 void List::set(int idx, basetype *obj)
 {
-    if (idx >= data.size())
-        data.resize(idx + 1);
-    data[idx] = unique_ptr<basetype>(obj->clone());
+    if (idx >= capacity)
+    {
+        int newCapacity = (idx + 1) * 2;
+        basetype **newData = new basetype*[newCapacity];
+        
+        for (int i = 0; i < size; i++)
+        {
+            newData[i] = data[i];
+        }
+        for (int i = size; i < newCapacity; i++)
+        {
+            newData[i] = nullptr;
+        }
+        
+        delete[] data;
+        data = newData;
+        capacity = newCapacity;
+    }
+    
+    if (data[idx] != nullptr)
+    {
+        delete data[idx];
+    }
+    
+    data[idx] = obj->clone();
+    
+    if (idx >= size)
+    {
+        size = idx + 1;
+    }
 }
+
 void List::set(int idx, int v)
 {
-    if (idx >= data.size())
-        data.resize(idx + 1);
-    data[idx] = unique_ptr<basetype>(new intType(v));
+    intType *it = new intType(v);
+    set(idx, it);
+    delete it;
 }
+
 void List::set(int idx, float v)
 {
-    if (idx >= data.size())
-        data.resize(idx + 1);
-    data[idx] = unique_ptr<basetype>(new floatType(v));
+    floatType *ft = new floatType(v);
+    set(idx, ft);
+    delete ft;
 }
+
 void List::set(int idx, double v)
 {
-    if (idx >= data.size())
-        data.resize(idx + 1);
-    data[idx] = unique_ptr<basetype>(new doubleType(v));
+    doubleType *dt = new doubleType(v);
+    set(idx, dt);
+    delete dt;
 }
+
 void List::set(int idx, char v)
 {
-    if (idx >= data.size())
-        data.resize(idx + 1);
-    data[idx] = unique_ptr<basetype>(new charType(v));
+    charType *ct = new charType(v);
+    set(idx, ct);
+    delete ct;
 }
+
 void List::set(int idx, const char *v)
 {
-    if (idx >= data.size())
-        data.resize(idx + 1);
-    data[idx] = unique_ptr<basetype>(new stringType(string(v)));
+    stringType *st = new stringType(string(v));
+    set(idx, st);
+    delete st;
 }
+
 void List::set(int idx, string v)
 {
-    if (idx >= data.size())
-        data.resize(idx + 1);
-    data[idx] = unique_ptr<basetype>(new stringType(v));
+    stringType *st = new stringType(v);
+    set(idx, st);
+    delete st;
 }
 
 basetype *List::get(int idx)
 {
-    if (idx < 0 || idx >= data.size())
+    if (idx < 0 || idx >= size)
         return nullptr;
-    return data[idx].get();
+    return data[idx];
 }
 
 Item List::operator[](int idx)
@@ -131,19 +278,19 @@ Item List::operator[](int idx)
     return Item(this, idx);
 }
 
-int List::getSize() { return data.size(); }
+int List::getSize() { return size; }
 
 void List::print()
 {
     cout << "[ ";
-    for (size_t i = 0; i < data.size(); i++)
+    for (int i = 0; i < size; i++)
     {
-        if (data[i])
+        if (data[i] != nullptr)
             data[i]->print();
         else
             cout << "null";
             
-        if (i != data.size() - 1)
+        if (i != size - 1)
             cout << ", ";
     }
     cout << " ]";
@@ -151,10 +298,13 @@ void List::print()
 
 basetype *List::clone()
 {
-    List *newList = new List(data.capacity());
-    for (const auto &item : data)
+    List *newList = new List(capacity);
+    for (int i = 0; i < size; i++)
     {
-        newList->add(item.get());
+        if (data[i] != nullptr)
+        {
+            newList->add(data[i]);
+        }
     }
     return newList;
 }
