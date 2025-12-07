@@ -3,7 +3,7 @@
 
 #include "Rectangle.h"
 
-class Square : public Rectangle {
+class Square : private Rectangle {
 public:
     Square(float side = 0);
 
