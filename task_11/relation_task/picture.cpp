@@ -1,4 +1,4 @@
-#include "picture.h";
+#include "picture.h"
 using namespace std;
 
 Picture::Picture() {

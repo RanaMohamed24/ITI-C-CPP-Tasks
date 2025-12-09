@@ -1,8 +1,9 @@
 #include "./picture.h"
+#include "./circle.h"
+#include "./rect.h"
+#include "./line.h"
+#include "./point.h"
 #include <SDL2/SDL.h>
-#include <circle.h>
-#include <rect.h>
-#include <line.h>
 using namespace std;
 
 int main() {
