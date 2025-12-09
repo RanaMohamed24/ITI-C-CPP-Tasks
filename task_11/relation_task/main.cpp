@@ -1,5 +1,8 @@
 #include "./picture.h"
 #include <SDL2/SDL.h>
+#include <circle.h>
+#include <rect.h>
+#include <line.h>
 using namespace std;
 
 int main() {
@@ -28,9 +31,16 @@ int main() {
     lArr[2] = Line(240, 300, 280, 300);
     lArr[3] = Line(360, 300, 400, 300);
   
-    myPic.setCircles(1, cArr);
-    myPic.setRects(2, rArr);
-    myPic.setLines(4, lArr);
+    Shape** shapes = new Shape*[7];
+    shapes[0] = &cArr[0];
+    shapes[1] = &rArr[0];
+    shapes[2] = &rArr[1];
+    shapes[3] = &lArr[0];
+    shapes[4] = &lArr[1];
+    shapes[5] = &lArr[2];
+    shapes[6] = &lArr[3];
+    
+    myPic.setShapes(7, shapes);
     
     myPic.print();
  
@@ -86,8 +96,7 @@ int main() {
     SDL_Quit();
     
     delete[] lArr;
-    
-   
+    delete[] shapes;
     
     return 0;
 }
